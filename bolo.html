@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Blob Test</title>
+    <script>
+        function handleFile(e) {
+            var file = e.files[0];
+            var fileReader = new FileReader();
+            var img = document.getElementByTagName("img")[0];
+            fileReader.onload = function(e) {
+                img.src = e.target.result;
+            }
+            fileReader.readAsDataURL(file);
+        }
+    </script>
+</head>
+
+<body>
+    <input type="file" accept="image/*" onchange="handleFile(this)" />
+    </br>
+    <img style="width:200px;height:200px;">
+</body>
+
+</html>

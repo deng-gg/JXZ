@@ -1,18 +1,36 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+    <el-row>
+        <Nav></Nav>
+        <SE1 class="see"></SE1>
+        <Center class="centerss"></Center>
+    </el-row>
 </template>
-
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import Nav from "../components/nav.vue"
+import SE1 from "../components/se1.vue"
+import Center from "../components/Center.vue"
 export default {
-  name: 'home',
   components: {
-    HelloWorld
+      Nav,
+      SE1,
+      Center
+  },
+  data() {
+    return {
+      dl:""
+    };
+  },
+   mounted() {
+    this.houtai();
+  },
+  methods: {
+    houtai(){
+      this.$http.get("/api/user/houtai").then(response => {
+        //console.log("获取到的", response.data);
+        this.dl = response.data;
+        console.log("shahsha",this.dl)
+      });
+    }
   }
-}
+};
 </script>
