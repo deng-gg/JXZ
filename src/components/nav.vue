@@ -33,6 +33,7 @@
           active-text-color="#ffd04b"
         >
           <el-submenu index="6">
+            <!--{dl}登录-->
             <template slot="title">{{dl}}</template>
             <el-menu-item index="6-1" class="login" @click="hrlogin">我是HR</el-menu-item>
             <el-menu-item index="6-2" class="login" @click="joplogin">我是人才</el-menu-item>
@@ -56,7 +57,7 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
-      dl: ""
+      dl: "登录"
     };
   },
   mounted() {

@@ -1,5 +1,8 @@
 module.exports = {
+    publicPath: './',
     devServer: {
+        port: 8089,
+        disableHostCheck: true,
         proxy: { // 设置代理
             '/api': {
                 target: 'http://127.0.0.1:3000', // 请求的目标服务器接口

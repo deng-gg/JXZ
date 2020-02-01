@@ -80,7 +80,7 @@ router.post('/HRadd', (req, res) => {
 
         if (data.name.length != 0 && data.pwd.length > 5) {
 
-            conn.query(`select HR_name from hr where HR_name='${data.name}'`, function(err, rs) {
+            conn.query(`select hrName from hr where hrName='${data.name}'`, function(err, rs) {
                 //console.log('查到的', rs)
                 let sql = $sql.user.insert_HR;
                 if (rs.length == 0) {
@@ -108,7 +108,7 @@ router.post('/HRadd', (req, res) => {
 router.post('/hrlogin', (req, res) => {
         let data = req.body;
         console.log(data)
-        let sql = `select HR_name,pwd from hr where HR_name = '${data.name}' and pwd = '${(data.pwd)}'`;
+        let sql = `select hrName,pwd from hr where hrName = '${data.name}' and pwd = '${(data.pwd)}'`;
         conn.query(sql, (err, rs) => {
             if (err) {
                 console.log(err)
@@ -209,19 +209,14 @@ router.get('/hrfabu', (req, res) => {
     console.log("dl===", data)
     var fb = req.session.userName;
     console.log("当前登录的是", fb)
-    let sql = `select * from post where HR_name='${fb}'`
+    let sql = `select * from post where hrName='${fb}'`
     conn.query(sql, (err, result) => {
         if (err) {
             console.log(err)
         }
         if (result) {
-
             console.log("我发布的职位有", result)
-
             jsonWrite(res, result)
-
-
-
         }
     })
 })
@@ -231,7 +226,7 @@ router.get('/gongsixinxi', (req, res) => {
 
     req.session.userName
         //console.log(req.session.userName, "当前登录的是")
-    let sql = `select * from hr where HR_name='${req.session.userName}'`
+    let sql = `select * from hr where hrName='${req.session.userName}'`
     conn.query(sql, (err, result) => {
         if (err) {
             console.log(err);
@@ -249,7 +244,7 @@ router.get('/gongsixinxi', (req, res) => {
 router.post('/HRxiugai', (req, res) => {
     let data = req.body;
     var sessionHR = req.sessison.userName
-    let sql = `update hr set HR_name='${data.HR_name}',QQ_WX='${data.QQ_WX}',pwd='${data.pwd}',email='${data.email}',company_city='${data.company_city}',juridical_person='${data.juridical_person}' `
+    let sql = `update hr set hrName='${data.hrName}',QQ='${data.QQ_WX}',pwd='${data.pwd}',email='${data.email}',company_city='${data.company_city}',juridical_person='${data.juridical_person}' `
     console.log(data, sessionHR);
     conn.query(sql, (err, result) => {
         if (err) {
@@ -267,7 +262,7 @@ router.post('/HRzhaopin', (req, res) => {
 
     let data = req.body;
     console.log(data);
-    let sql = `insert into post(HR_name,release_time,post,ask,pay,city,work_experience,education,type) values('123','${data.currentdate}','${data.post}','${data.ask}','${data.pay}','${data.city}','${data.work_experienc}','${data.education}','${data.type}')`
+    let sql = `insert into post(hrName,release_time,post,ask,pay,city,work_experience,education,type) values('123','${data.currentdate}','${data.post}','${data.ask}','${data.pay}','${data.city}','${data.work_experienc}','${data.education}','${data.type}')`
     conn.query(sql, (err, result) => {
         if (err) {
             console.log(err);
@@ -278,6 +273,22 @@ router.post('/HRzhaopin', (req, res) => {
         }
     })
 }, )
+router.get('/login', (req, res) => {
+    console.log(req)
+    account = req.body.account;
+    psw = req.body.psw;
+    let sql = `select account,psw from hr where account='${account}' and psw = '${psw}'`;
+    conn.query(sql, (err, rs) => {
+        if (err) {
+            console.log(err);
 
+            res.json("-1")
+            return;
+        }
+        res.json(rs)
+
+
+    })
+})
 
 module.exports = router;
