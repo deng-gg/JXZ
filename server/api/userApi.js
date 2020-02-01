@@ -1,7 +1,6 @@
-var models = require('../db');
+var mysql = require('../db')
 var express = require('express');
 var router = express.Router();
-var mysql = require('mysql');
 var $sql = require('../sqlMap');
 var fs = require('fs');
 const multer = require('multer')
@@ -13,19 +12,15 @@ var upload = multer({ //multer中间件的使用方法可以看官网
     dest: '../tx'
 })
 router.use(session({
-        // 可以随便写。 一个 String 类型的字符串，作为服务器端生成 session 的签名
-        secret: 'keyboard cat',
-        //强制保存 session 即使它并没有变化,。默认为 true
-        resave: true,
-        //过期时间
-        cookie: { maxAge: 90000 }, //单位为妙
-        //强制将未初始化的 session 存储。  默认值是true  建议设置成true
-        saveUninitialized: true
-    }))
-    // 连接数据库
-var conn = mysql.createConnection(models.mysql);
-
-conn.connect();
+    // 可以随便写。 一个 String 类型的字符串，作为服务器端生成 session 的签名
+    secret: 'keyboard cat',
+    //强制保存 session 即使它并没有变化,。默认为 true
+    resave: true,
+    //过期时间
+    cookie: { maxAge: 90000 }, //单位为妙
+    //强制将未初始化的 session 存储。  默认值是true  建议设置成true
+    saveUninitialized: true
+}))
 var jsonWrite = function(res, ret) {
     if (typeof ret === 'undefined') {
         res.json({
@@ -48,11 +43,11 @@ router.post('/jopAdd', (req, res) => {
 
     if (data.name.length != 0 && data.pwd.length > 5) {
 
-        conn.query(`select name from job_seeker where name='${data.name}'`, function(err, rs) {
+        mysql(`select name from job_seeker where name='${data.name}'`, function(err, rs) {
             console.log('查到的', rs)
             let sql = $sql.user.insert_jop;
             if (rs.length == 0) {
-                conn.query(sql, [data.currentdate, data.name, data.pwd, data.email, data.industry, data.city], function(err, result) {
+                mysql(sql, [data.currentdate, data.name, data.pwd, data.email, data.industry, data.city], function(err, result) {
                     if (err) {
                         console.log(err);
                     } else if (result) {
@@ -84,7 +79,7 @@ router.post('/HRadd', (req, res) => {
                 //console.log('查到的', rs)
                 let sql = $sql.user.insert_HR;
                 if (rs.length == 0) {
-                    conn.query(sql, [data.currentdate, data.name, data.pwd, data.email, data.companyname, data.credit_code], function(err, result) {
+                    mysql(sql, [data.currentdate, data.name, data.pwd, data.email, data.companyname, data.credit_code], function(err, result) {
                         if (err) {
                             console.log(err);
                         } else if (result) {
@@ -131,7 +126,7 @@ router.post('/joplogin', (req, res) => {
     let data = req.body;
     console.log(data)
     let sql = `select name,pwd from job_seeker where name = '${data.name}' and pwd = '${(data.pwd)}'`;
-    conn.query(sql, (err, rs) => {
+    mysql(sql, (err, rs) => {
         if (err) {
             console.log(err)
 
@@ -168,7 +163,7 @@ router.get('/position', (req, res) => {
 
     let sql = $sql.user.position;
 
-    conn.query(sql, (err, result) => {
+    mysql(sql, (err, result) => {
         if (err) {
             console.log(err)
         }
@@ -188,7 +183,7 @@ router.get('/position', (req, res) => {
 //HR查询人才
 router.get('/rencai', (req, res) => {
     let sql = `select * from job_seeker`
-    conn.query(sql, (err, result) => {
+    mysql(sql, (err, result) => {
         if (err) {
             console.log(err)
         }
@@ -246,7 +241,7 @@ router.post('/HRxiugai', (req, res) => {
     var sessionHR = req.sessison.userName
     let sql = `update hr set hrName='${data.hrName}',QQ='${data.QQ_WX}',pwd='${data.pwd}',email='${data.email}',company_city='${data.company_city}',juridical_person='${data.juridical_person}' `
     console.log(data, sessionHR);
-    conn.query(sql, (err, result) => {
+    mysql(sql, (err, result) => {
         if (err) {
             console.log(err);
         }
