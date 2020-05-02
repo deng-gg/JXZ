@@ -46,7 +46,7 @@
                                   :xl="5"
                                   style="color:black !important;"
                                   prop="gongsi"
-                                >{{item.company_name}}</el-col>
+                                >{{item.hrName}}</el-col>
                                 <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                                   <p>招聘者：HR</p>
                                 </el-col>
@@ -62,7 +62,7 @@
                                   prop="fabu"
                                 >
                                   发布于:
-                                  <span>{{item.release_time}}</span>
+                                  <span>{{item.createTime}}</span>
                                 </el-col>
                                 <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                                   <p>邮箱：1912504939@qq.com</p>
@@ -80,7 +80,7 @@
                     </el-tab-pane>
                     <el-tab-pane label="后端开发">配置管理</el-tab-pane>
                     <el-tab-pane label="javascript">角色管理</el-tab-pane>
-                    <el-tab-pane label="python">定时任务补偿</el-tab-pane>
+                    <el-tab-pane label="golang">定时任务补偿</el-tab-pane>
                     <el-tab-pane style label="java">角色管理</el-tab-pane>
                     <el-tab-pane label="C++" name="first"></el-tab-pane>
                   </el-tabs>
@@ -130,10 +130,15 @@ export default {
 
     //获取职位信息
     position() {
-      this.$http.get("/api/user/position").then(response => {
-        //console.log("获取到的", response.data);
-        this.jop = response.data;
-      });
+      let aaa = "nihao";
+      this.$http.get("/api/public/position",{aaa:aaa})
+      .then(response => {
+        console.log("获取到的", response.data);
+        this.jop = response.data.msg;
+      })
+      .catch(function(error) {
+            console.log(error);
+          });
     },
     examine() {
       alert("id:");

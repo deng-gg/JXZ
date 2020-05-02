@@ -1,7 +1,7 @@
 <template>
   <el-row class="bg">
-    <el-col :span="24">
-      <el-col :offset="3" :xs="15" :sm="13" :md="10" :lg="10" :xl="10" class="bg-li">
+    <el-col :span="24" class="bg">
+      <el-col :offset="3" :xs="21" :sm="13" :md="10" :lg="10" :xl="10" class="bg-li">
         <el-menu
           :default-active="activeIndex2"
           class="el-menu-demo"
@@ -122,11 +122,11 @@ export default {
       if (this.dl !== "未登录！") {
         var truthBeTold = window.confirm("您已经登录是否重新登录");
         if (truthBeTold) {
-          this.$router.push({ path: "/logins" });
+          this.$router.push({ path: "/hrLogin" });
         } else {
         }
       } else {
-        this.$router.push({ path: "/logins" });
+        this.$router.push({ path: "/hrLogin" });
       }
     },
 
@@ -146,8 +146,13 @@ export default {
       this.$router.push({ path: "jopgrzx" });
     },
     houtai() {
-      this.$http.get("/api/user/houtai").then(response => {
-        //console.log("获取到的", response.data);
+      this.$http.get("/api/houtai").then(response => {
+       if(response.data.success==false){
+
+          this.dl = "登录";
+          return
+       }
+        console.log("获取到的", response.data);
         this.dl = response.data;
         console.log("shahsha", this.dl);
       });
@@ -157,6 +162,7 @@ export default {
 </script>
 <style>
 .bg {
+  margin: 0px;
   background: rgb(43, 59, 75) !important;
 }
 .bg-li li:hover {
@@ -170,4 +176,9 @@ export default {
 .login:hover {
   background: rgb(34, 47, 60) !important;
 }
+
+.el-submenu:hover{
+  background: rgb(34, 47, 60) !important;
+}
+
 </style>

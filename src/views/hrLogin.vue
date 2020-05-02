@@ -38,6 +38,7 @@
             >
               <i slot="suffix" class="el-icon-view ispan" @click="showPwd"></i>
             </el-input>
+            <el-alert :title="tisi" type="success"></el-alert>
           </el-form-item>
 
           <el-button type="primary" @click="HRlogin" class="regester">登录</el-button>
@@ -66,14 +67,13 @@ export default {
       ],
       HR: {
         name: "",
-        mima: "",
-        
+        mima: ""
       },
-      pwdType: "password"
+      pwdType: "password",
+      tisi: ""
     };
   },
-  mounted() {
-  },
+  mounted() {},
 
   methods: {
     showPwd() {
@@ -85,27 +85,39 @@ export default {
         ? e.setAttribute("style", "color: #409EFF")
         : e.setAttribute("style", "color: #c0c4cc");
     },
-    HRlogin(){
-        let hr = this.HR;
-        let name = hr.name;
-        let pwd = hr.mima;
-        if (name.length == 0 || pwd.length == 0) {
-        alert("用户名或密码为空");
+    HRlogin() {
+      let hr = this.HR;
+
+      let hrName = hr.name;
+      let pwd = hr.mima;
+
+      console.log(hrName, pwd);
+
+      if (hrName.length == 0 || pwd.length == 0) {
+        console.log("用户名或密码为空");
       } else if (pwd.length < 6) {
-        alert("密码低于六位数",hr.name);
+        alert("密码低于六位数", hrName);
       } else {
         this.$http
-          .post("/api/user/hrlogin", {
-            name: name,
-            pwd: pwd,
+          .get("/api/hr/login", {
+            params: {
+              hrName: hrName,
+              pwd: pwd
+            }
           })
-          .then(response => {
-            console.log("登录上传成功", response);
-            alert("登录成功");
+          .then(res => {
+            if (res.data.success == false) {
+              this.tisi = "账号或密码错误！";
+              //console.log(res.data, "登录失败！");
+              //console.log(this.tisi)
+              return;
+            }
+            //console.log("登录成功！");
             this.$router.push({ path: "/" });
+            
           })
           .catch(function(error) {
-            alert("登录失败！");
+            this.tisi = "登录失败，服务出错！";
           });
       }
     }

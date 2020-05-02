@@ -51,7 +51,7 @@ export default {
 </script>
 <style>
 .input-with-select {
-  min-width: 30em !important;
+  min-width: 100% !important;
   margin-bottom:1em !important;
 }
 .se_select{

@@ -4,7 +4,7 @@ import regester from './views/regester.vue'
 import home from './views/Home.vue'
 import HRregester from './views/HRregester.vue'
 import grzx from './views/grzx.vue'
-import logins from './views/logins.vue'
+import hrLogin from './views/hrLogin.vue'
 import joplogin from './views/joplogin.vue'
 import jopgrzx from './views/jopgrzx.vue'
 import rencai from './views/rencai'
@@ -47,9 +47,9 @@ export default new Router({
             children: []
         },
         {
-            path: '/logins',
-            name: 'logins',
-            component: logins,
+            path: '/hrLogin',
+            name: 'hrLogin',
+            component: hrLogin,
             children: []
         }, {
             path: '/jopgrzx',

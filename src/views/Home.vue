@@ -24,13 +24,13 @@ export default {
     this.houtai();
   },
   methods: {
-    houtai(){
-      this.$http.get("/api/user/houtai").then(response => {
-        //console.log("获取到的", response.data);
-        this.dl = response.data;
-        console.log("shahsha",this.dl)
-      });
-    }
+    // houtai(){
+    //   this.$http.get("/api/public/houtai").then(response => {
+    //     //console.log("获取到的", response.data);
+    //     this.dl = response.data;
+    //     console.log("shahsha",this.dl)
+    //   });
+    // }
   }
 };
 </script>

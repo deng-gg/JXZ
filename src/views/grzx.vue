@@ -245,7 +245,7 @@ export default {
       },
 
       post: "",
-      jop: "",
+      jop: ""
     };
   },
   mounted() {
@@ -300,7 +300,7 @@ export default {
       let company_city = this.company_city;
 
       this.$http
-        .post("/api/user/HRxiugai", {
+        .post("/api/hr/HRxiugai", {
           HR_name: HR_name,
           pwd: pwd,
           email: email,
@@ -326,21 +326,10 @@ export default {
       let HR_name = HRxinxi.HR_name;
       let email = HRxinxi.email;
       let company_name = HRxinxi.company_name;
-      //注册时间
-      var date = new Date();
-      var seperator1 = "-";
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      var strDate = date.getDate();
-      if (month >= 1 && month <= 9) {
-        month = "0" + month;
-      }
-      if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-      }
-      var currentdate = year + seperator1 + month + seperator1 + strDate; //注册时间
+
       if (this.dl == "未登录！") {
         alert("请登录后再发表！");
+        return;
       } else if (this.dl !== "未登录") {
         if (this.zhaopin.post == "" || this.zhaopin.city == "") {
           alert("请输入岗位名称和工作城市");
@@ -375,7 +364,7 @@ export default {
     },
 
     zhuangtai() {
-      this.$http.get("/api/user/houtai").then(response => {
+      this.$http.get("/api/houtai").then(response => {
         //console.log("获取到的", response.data);
         this.dl = response.data;
         console.log("获取到登录用户名", this.dl);
@@ -383,18 +372,16 @@ export default {
     },
     wfbd() {
       console.log("dl:", this.dl);
-      let ddl = this.dl
-      this.$http
-        .get("/api/user/hrfabu",{ddl})
-        .then(response => {
-          //console.log("获取到的", response.data);
-         console.log(response.data)
-         this.jop = response.data;
-
-        })
-        .catch(function(error) {
-          alert("获取失败！");
-        });
+      let ddl = this.dl;
+      this.$http.get("/api/houtai",{ddl:ddl}).then(response => {
+        if (response.data.success == false) {
+          this.dl = "登录";
+          return;
+        }
+        console.log("获取到的", response.data);
+        this.dl = response.data;
+        console.log("shahsha", this.dl);
+      });
     }
   }
 };

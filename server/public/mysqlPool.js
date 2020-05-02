@@ -13,7 +13,7 @@ var query = function(sql, callback) {
             callback(err, null, null);
         } else {
             conn.query(sql, function(qerr, vals, fields) {
-                //释放连接
+                //释放连接,关闭--
                 conn.release();
                 //事件驱动回调
                 callback(qerr, vals, fields);

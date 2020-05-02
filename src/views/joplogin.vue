@@ -26,8 +26,8 @@
       </el-col>
       <el-col :offset="2" :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
         <el-form label-position="top" label-width="80px" :model="jop" style="margin-top:5em;">
-          <el-form-item label="用户名">
-            <el-input v-model="jop.name" placeholder="请输入用户名"></el-input>
+          <el-form-item label="用户名或邮箱">
+            <el-input v-model="jop.name" placeholder="请输入用户名或邮箱"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="pwd">
             <el-input
@@ -38,7 +38,9 @@
             >
               <i slot="suffix" class="el-icon-view ispan" @click="showPwd"></i>
             </el-input>
+             
           </el-form-item>
+          <el-alert :title="tisi" type="error"></el-alert>
 
           <el-button type="primary" @click="joplogin" class="regester">登录</el-button>
         </el-form>
@@ -69,7 +71,8 @@ export default {
         pwd: "",
         
       },
-      pwdType: "password"
+      pwdType: "password",
+      tisi:""
     };
   },
   mounted() {
@@ -90,22 +93,30 @@ export default {
         let name = jop.name;
         let pwd = jop.pwd;
         if (name.length == 0 || pwd.length == 0) {
-        alert("用户名或密码为空");
+          this.tisi = "用户名或密码为空！";
       } else if (pwd.length < 6) {
-        alert("密码低于六位数",jop.name);
+        this.tisi ="密码低于六位数"
       } else {
         this.$http
-          .post("/api/user/joplogin", {
-            name: name,
-            pwd: pwd,
+          .post("/api/job/login", {
+            params: {
+            "name":name,
+            "pwd": pwd,
+          }   
           })
-          .then(response => {
-            console.log("登录上传成功", response);
-            alert("登录成功");
+          .then(res => {
+            if (res.data.success == false) {
+              this.tisi = "账号或密码错误！";
+              //console.log(res.data, "登录失败！");
+              //console.log(this.tisi)
+              return;
+            }
+            //console.log("登录成功！");
             this.$router.push({ path: "/" });
+            
           })
           .catch(function(error) {
-            alert("登录失败！");
+            this.tisi = "登录失败，服务出错！";
           });
       }
     }
@@ -179,5 +190,10 @@ export default {
   margin-top: 1em;
   margin-bottom: 3em;
   font-family: "microsoft yahei" !important;
+}
+
+.el-alert--error.is-light {
+    background-color: #ffffff !important;
+    color: #F56C6C;
 }
 </style>

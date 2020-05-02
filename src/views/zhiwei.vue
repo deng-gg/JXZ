@@ -42,9 +42,9 @@
                         :xl="5"
                         style="color:black !important;"
                         prop="gongsi"
-                      >{{item.company_name }}</el-col>
+                      >{{item.companyName }}</el-col>
                       <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5" class="JOP">
-                        <p>HR：{{item.HR_name}}</p>
+                        <p>HR：{{item.hrName}}</p>
                       </el-col>
                     </el-col>
                     <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5" class="JOP">
@@ -58,7 +58,7 @@
                         prop="fabu"
                       >
                         发布于:
-                        <span>{{item.release_time}}</span>
+                        <span>{{item.createTime}}</span>
                       </el-col>
                       <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                         <p>邮箱：{{item.email}}</p>
@@ -66,7 +66,19 @@
                     </el-col>
                     <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                       <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-                        <el-button type="success" plain @click="examine" class="JOPbutton">点击查看</el-button>
+                        <el-popover placement="right" width="400" trigger="click">
+                          <div>
+                            <div>
+                              <h2>{{item.post}}<span class="pay">{{item.pay}}</span></h2>
+                            </div>
+                            <div class="ask_wor">
+                              <p>{{item.ask}}</p>
+                              <h4>经验：{{item.workExperience}}</h4>
+                            </div>
+                          </div>
+                          <el-button slot="reference">点击查看详情</el-button>
+                        </el-popover>
+                        <!-- <el-button type="success" plain @click="examine" class="JOPbutton">点击查看</el-button> -->
                       </el-col>
                     </el-col>
                   </el-col>
@@ -93,22 +105,33 @@ export default {
   },
   data() {
     return {
+      gridData: [{
+          post: '',
+          ask: '',
+          pay: '',
+          workExperience:"",
+          education:"",
+          city:"",
+          email:"",
+          companyName:""
+        }],
       jop: "",
       dl: "",
       activeIndex: "1",
       activeIndex2: "1",
-      post: "" //职位
+      post: "" ,//职位 
+      
     };
   },
-    mounted() {
+  mounted() {
     this.position();
   },
   methods: {
     //获取职位信息
     position() {
-      this.$http.get("/api/user/position").then(response => {
+      this.$http.get("/api/public/position").then(response => {
         console.log("获取到的", response.data);
-        this.post = response.data;
+        this.post = response.data.msg;
       });
     },
     examine() {
@@ -145,5 +168,19 @@ export default {
 
 .JOPbutton {
   margin-top: 1.5em;
+}
+
+.bg-li li div:hover {
+  background: rgb(248, 246, 246) !important;
+}
+
+.pay{
+  font: 10px !important;
+  margin-left: 10px;
+}
+
+.ask_wor p,
+.ask_wor h4{
+  margin-top: 2em;
 }
 </style>
