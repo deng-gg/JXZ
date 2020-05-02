@@ -24,26 +24,28 @@ app.post('/register', (req, res) => {
 
     let data = req.body;
 
-    //console.log(data)
+    ////console.log("data", data)
     if (data.account.length != 0 && data.pwd.length > 5) {
 
         let sql = `select account from job_seeker where account='${data.account}'`
 
         mysql(sql, (err, vals, fields) => {
 
-            //console.log('查到的', vals, fields)
+            ////console.log('查到的', err, vals, fields)
 
             if (vals == 0) {
                 let pwd = ase.encryption(`${data.pwd}`)
-                let sql2 = `insert into job_seeker(account,pwd,email,post,city,age,education,selfAssessment,pay) values('${data.account}','${pwd}','${data.email}','${data.post}','${data.city}','${data.age}','${data.education}','${data.selfAssessment}','${data.pay}')`;
+                let sql2 = `insert into job_seeker(account,pwd,email,post,city,age,education,selfAssessment,pay) values("${data.account}","${pwd}","${data.email}","${data.post}","${data.city}","${data.age}","${data.education}","${data.selfAssessment}","${data.pay}")`;
 
                 mysql(sql2, (err2, vals2, fields2) => {
+                    //console.log(err2, vals2)
                     if (err2) {
 
                         let obj = {
                             'success': false,
                             'code': -1,
-                            'msg': "注册失败" + err2
+                            'msg': "注册失败",
+                            "err2": err2
                         };
                         jsonWrite(res, obj);
                     } else {
@@ -68,7 +70,7 @@ app.post('/register', (req, res) => {
             } else {
                 let obj = {
                     'success': false,
-                    'code': -1,
+                    'code': -6,
                     'msg': "注册失败,用户名已存在"
                 };
                 jsonWrite(res, obj);
@@ -77,7 +79,7 @@ app.post('/register', (req, res) => {
     } else {
         let obj = {
             'success': false,
-            'code': -1,
+            'code': -5,
             'msg': "用户名或密码为空"
         };
         jsonWrite(res, obj);
@@ -96,7 +98,7 @@ app.post('/login', (req, res) => {
     if (account.length != 0 && data.pwd.length > 5) {
 
         let pwd = ase.encryption(`${data.pwd}`);
-        //console.log("pwdwe", pwd)
+        ////console.log("pwdwe", pwd)
         let sql = `select account,pwd from job_seeker where account = '${account}' or email = '${account}' and pwd = '${(pwd)}'`;
 
         mysql(sql, (err, vals, fields) => {
@@ -119,10 +121,10 @@ app.post('/login', (req, res) => {
                 };
 
                 req.session.cookie.maxAge = 9000000; //单位为妙
-                //console.log(req.session)
+                ////console.log(req.session)
                 req.session.userName = account;
-                //console.log("session", req.session.userName)
-                //console.log("登录成功", vals)
+                ////console.log("session", req.session.userName)
+                ////console.log("登录成功", vals)
                 jsonWrite(res, obj)
             }
         })

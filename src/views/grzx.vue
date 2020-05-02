@@ -62,7 +62,7 @@
                 >
                   <el-form label-position="top" label-width="80px">
                     <el-form-item label="名称">
-                      <el-input v-model="HRxinxi.HR_name"></el-input>
+                      <el-input v-model="HRxinxi.hrName"></el-input>
                     </el-form-item>
                     <el-form-item label="密码">
                       <el-input v-model="HRxinxi.pwd" type="password"></el-input>
@@ -70,26 +70,29 @@
                     <el-form-item label="email">
                       <el-input v-model="HRxinxi.email"></el-input>
                     </el-form-item>
-                    <el-form-item label="QQ/微信">
-                      <el-input v-model="HRxinxi.QQ_WX"></el-input>
+                    <el-form-item label="微信">
+                      <el-input v-model="HRxinxi.WX"></el-input>
                     </el-form-item>
                   </el-form>
+                  <el-alert :title="tisi" type="success"></el-alert>
                 </el-col>
                 <el-col :offset="1" :xs="12" :sm="12" :md="9" :lg="9" :xl="9" class="xinxi_">
                   <el-form label-position="top" label-width="80px">
                     <el-form-item label="公司">
-                      <el-input v-model="HRxinxi.company_name"></el-input>
+                      <el-input v-model="HRxinxi.companyName"></el-input>
                     </el-form-item>
                     <el-form-item label="信用代码">
-                      <el-input v-model="HRxinxi.credit_code"></el-input>
+                      <el-input v-model="HRxinxi.creditCode"></el-input>
                     </el-form-item>
                     <el-form-item label="法人">
-                      <el-input v-model="HRxinxi.juridical_person"></el-input>
+                      <el-input v-model="HRxinxi.juridical"></el-input>
                     </el-form-item>
                     <el-form-item label="所在地">
-                      <el-input v-model="HRxinxi.company_city"></el-input>
+                      <el-input v-model="HRxinxi.city"></el-input>
                     </el-form-item>
+                    
                     <el-button plain @click="xiugai">点击修改</el-button>
+                    
                   </el-form>
                 </el-col>
               </el-row>
@@ -107,7 +110,7 @@
                   :model="zhaopin"
                 >
                   <el-form label-position="top" label-width="80px">
-                    <el-form-item label="岗位名称">
+                    <el-form-item :label="postName">
                       <el-input v-model="zhaopin.post"></el-input>
                     </el-form-item>
                     <el-form-item label="薪资">
@@ -116,9 +119,10 @@
                     <el-form-item label="工作地点">
                       <el-input v-model="zhaopin.city"></el-input>
                     </el-form-item>
-                    <el-form-item label="类型">
+                    <el-form-item :label="postType">
                       <el-select v-model="zhaopin.type" placeholder="请选择行业类型" class="selects">
                         <el-option label="技术" value="技术"></el-option>
+                        <el-option label="IT" value="IT"></el-option>
                         <el-option label="产品" value="产品"></el-option>
                         <el-option label="设计" value="设计"></el-option>
                         <el-option label="运营" value="运营"></el-option>
@@ -132,6 +136,7 @@
                       </el-select>
                     </el-form-item>
                   </el-form>
+                   <el-alert :title="tisi" type="success"></el-alert>
                 </el-col>
                 <el-col :offset="1" :xs="12" :sm="12" :md="9" :lg="9" :xl="9" class="xinxi_">
                   <el-form label-position="top" label-width="80px" :model="post">
@@ -162,8 +167,8 @@
                         <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                           <p prop="diqu">
                             {{item.city}}
-                            <em>|</em>经验不限
-                            <em>|</em>大专
+                            <em>|</em>经验:{{item.workExperience}}
+                            <em>|</em>学历:{{item.education}}
                           </p>
                         </el-col>
                       </el-col>
@@ -176,9 +181,9 @@
                           :xl="5"
                           style="color:black !important;"
                           prop="gongsi"
-                        >{{item.post}}</el-col>
+                        >{{item.companyName}}</el-col>
                         <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-                          <p>招聘者：HR</p>
+                          <p>发布人：{{item.hrName}}</p>
                         </el-col>
                       </el-col>
                       <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
@@ -192,7 +197,7 @@
                           prop="fabu"
                         >
                           发布于:
-                          <span>{{dl}}</span>
+                          <span>{{item.createTime}}</span>
                         </el-col>
                         <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                           <p>邮箱：1912504939@qq.com</p>
@@ -222,17 +227,20 @@ export default {
   data() {
     return {
       dl: "",
+      tisi:"",
+      postName:"职位",
+      postType:"类型",
       activeIndex: "1",
       activeIndex2: "1",
       HRxinxi: {
-        HR_name: "",
+        hrName: "",
         pwd: "",
         email: "",
-        QQ_WX: "",
-        company_name: "",
-        credit_code: "",
-        juridical_person: "",
-        company_city: ""
+        WX: "",
+        companyName: "",
+        creditCode: "",
+        juridical: "",
+        city: ""
       },
       zhaopin: {
         post: "",
@@ -249,23 +257,29 @@ export default {
     };
   },
   mounted() {
-    this.zhuangtai();
     this.gongsixinxi();
-  },
-  beforeUpdate() {
+    this.houtai();
     this.wfbd();
   },
+  beforeUpdate() {
+    
+  },
   methods: {
-    houtai() {
-      this.$http.get("/api/user/houtai").then(response => {
-        //console.log("获取到的", response.data);
+      houtai() {
+        this.$http.get("/api/houtai").then(response => {
+          if(response.data.success==false){
+          this.dl = "登录";
+          return
+       }
+        console.log("获取到的", response.data);
         this.dl = response.data;
-        console.log("shahshaqisiren", this.dl);
+        console.log("shahsha", this.dl);
       });
     },
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
-    },
+    // handleSelect(key, keyPath) {
+    //   console.log(key, keyPath);
+    // },
+
     hrre() {
       this.$router.push({ path: "/HRregester" });
     },
@@ -276,39 +290,44 @@ export default {
       this.$router.push({ path: "/" });
     },
     hrlogin() {
-      this.$router.push({ path: "/logins" });
+      this.$router.push({ path: "/hrLogin" });
     },
     joplogin() {
       this.$router.push({ path: "/joplogin" });
     },
 
     gongsixinxi() {
-      this.$http.get("/api/user/gongsixinxi").then(response => {
-        this.HRxinxi = response.data[0];
+      this.$http.get("/api/hr/gongsixinxi").then(response => {
+        this.HRxinxi = response.data.msg[0];
         console.log("HR公司信息:", this.HRxinxi);
       });
     },
     xiugai() {
       let HR = this.HRxinxi;
-      let HR_name = HR.HR_name;
+      let HR_name = HR.hrName;
       let pwd = HR.pwd;
       let email = HR.email;
-      let QQ_WX = HR.QQ_WX;
-      let company_name = HR.company_name;
-      let credit_code = HR.credit_code;
-      let juridical_person = HR.juridical_person;
-      let company_city = this.company_city;
+      let QQ_WX = HR.WX;
+      let company_name = HR.companyName;
+      let credit_code = HR.creditCode;
+      let juridical_person = HR.juridical;
+      let company_city = HR.city;
+
+      if(HR_name == ""){
+        this.tisi = "请登录！"
+        return
+      }
 
       this.$http
         .post("/api/hr/HRxiugai", {
-          HR_name: HR_name,
+          hrName: HR_name,
           pwd: pwd,
           email: email,
-          QQ_WX: QQ_WX,
-          company_name: company_name,
-          credit_code: credit_code,
-          juridical_person: juridical_person,
-          company_city: company_city
+          WX: QQ_WX,
+          companyName: company_name,
+          code: credit_code,
+          juridical: juridical_person,
+          city: company_city
         })
         .then(response => {
           console.log("上传成功", response);
@@ -327,18 +346,17 @@ export default {
       let email = HRxinxi.email;
       let company_name = HRxinxi.company_name;
 
-      if (this.dl == "未登录！") {
-        alert("请登录后再发表！");
+      if (this.dl == "登录！") {
+        this.tisi= "请您登录！"
         return;
-      } else if (this.dl !== "未登录") {
+      } else if (this.dl !== "登录") {
         if (this.zhaopin.post == "" || this.zhaopin.city == "") {
-          alert("请输入岗位名称和工作城市");
+          this.postname =  "请输入岗位名称和工作城市";
         } else if (this.zhaopin.type == "") {
-          alert("请选择职业类型");
+          this.postType = "请选择职业类型";
         } else {
           this.$http
-            .post("/api/user/HRzhaopin", {
-              //hr_name:dl,
+            .post("/api/hr/HRzhaopin", {
               post: zhaopin.post,
               pay: zhaopin.pay,
               city: zhaopin.city,
@@ -346,10 +364,9 @@ export default {
               work_experience: zhaopin.work_experience,
               education: zhaopin.education,
               type: zhaopin.type,
-              currentdate: currentdate,
-              HR_name: HRxinxi.HR_name,
               email: HRxinxi.email,
-              company_name: HRxinxi.company_name
+              company_name: HRxinxi.companyName,
+
             })
             .then(response => {
               console.log("上传成功", response);
@@ -359,28 +376,20 @@ export default {
             .catch(function(error) {
               alert("发布失败！");
             });
+            return
         }
       }
     },
-
-    zhuangtai() {
-      this.$http.get("/api/houtai").then(response => {
-        //console.log("获取到的", response.data);
-        this.dl = response.data;
-        console.log("获取到登录用户名", this.dl);
-      });
-    },
     wfbd() {
-      console.log("dl:", this.dl);
-      let ddl = this.dl;
-      this.$http.get("/api/houtai",{ddl:ddl}).then(response => {
+      this.$http.get("/api/hr/hrfabu").then(response => {
+        
         if (response.data.success == false) {
           this.dl = "登录";
           return;
         }
-        console.log("获取到的", response.data);
-        this.dl = response.data;
-        console.log("shahsha", this.dl);
+        //console.log("获取到的", response.data);
+        this.jop = response.data.msg;
+
       });
     }
   }
@@ -417,5 +426,8 @@ export default {
 }
 .selects span {
   margin-top: 2.5em !important;
+}
+.el-carousel__item:nth-child(2n + 1) {
+  background-color: #d3dce6;
 }
 </style>

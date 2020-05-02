@@ -18,9 +18,9 @@ const jsonWrite = publicFun.jsonWrite
 const session = require("express-session");
 
 // var data = 123234323
-// console.log(ase.encryption(`${data}`))
+// //console.log(ase.encryption(`${data}`))
 let date = "LxgyjDX8S7ZRPcDIwM0kfw=="
-console.log(ase.decryption(date))
+    //console.log(ase.decryption(date))
 
 //配置请求头, 跨域， 用了proxy代理服务就不需要该请求头
 // var allowCrossDomain = function(req, res, next) {
@@ -53,8 +53,8 @@ app.use('/api/public', publicApi);
 //登录状态
 app.get('/api/houtai', (req, res) => {
 
-    console.log(req.query)
-    console.log("12323123", req.session.userName)
+    //console.log(req.query)
+    //console.log("12323123", req.session.userName)
     loginCall(req, res, (name) => {
 
         if (name != null) {
@@ -70,4 +70,4 @@ app.get('/api/houtai', (req, res) => {
 })
 
 app.listen(3000); // 监听端口
-console.log('success listen at port:3000......');
+//console.log('success listen at port:3000......');

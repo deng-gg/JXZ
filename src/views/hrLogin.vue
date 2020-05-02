@@ -38,9 +38,8 @@
             >
               <i slot="suffix" class="el-icon-view ispan" @click="showPwd"></i>
             </el-input>
-            <el-alert :title="tisi" type="success"></el-alert>
           </el-form-item>
-
+          <el-alert :title="tisi" type="success"></el-alert>
           <el-button type="primary" @click="HRlogin" class="regester">登录</el-button>
         </el-form>
       </el-col>
@@ -114,7 +113,6 @@ export default {
             }
             //console.log("登录成功！");
             this.$router.push({ path: "/" });
-            
           })
           .catch(function(error) {
             this.tisi = "登录失败，服务出错！";
@@ -178,8 +176,9 @@ export default {
   background-color: #99a9bf;
 }
 
-.el-carousel__item:nth-child(2n + 1) {
-  background-color: #d3dce6;
+.el-alert--success.is-light {
+  background-color: white;
+  color: #67c23a;
 }
 
 /*底部 */

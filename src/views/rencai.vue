@@ -20,7 +20,7 @@
                   <el-col :xs="22" :sm="22" :md="22" :lg="22" :xl="22" class="jop_ jopp">
                     <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5" class="JOP">
                       <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5" prop="zhiwei">
-                        {{item.name}}
+                        {{item.account}}
                         <em prop="xinci">期望{{item.pay}}</em>
                       </el-col>
                       <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
@@ -42,7 +42,7 @@
                         :xl="5"
                         style="color:black !important;"
                         prop="gongsi"
-                      >行业：{{item.post}}</el-col>
+                      >期望职位:{{item.post}}</el-col>
                       <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                         <p>邮箱：{{item.email}}</p>
                       </el-col>
@@ -58,10 +58,10 @@
                         prop="fabu"
                       >
                         发布于:
-                        <span>{{item.date}}</span>
+                        <span>{{item.createTime}}</span>
                       </el-col>
                       <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-                        <p>生日:{{item.birthday}}</p>
+                        <p>年龄:{{item.age}}</p>
                       </el-col>
                     </el-col>
                     <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
@@ -111,10 +111,17 @@ export default {
 
     //获取职位信息
     rencai() {
-      this.$http.get("/api/user/rencai").then(response => {
-        //console.log("获取到的", response.data);
-        this.rc = response.data;
-        console.log(rc);
+      this.$http.get("/api/hr/rencai").then(response => {
+        
+        console.log("data是", response.data);
+        if (response.data.code == 1) {
+          alert( "登录超时")
+        } else if (response.data.code == -2) {
+          alert("你不是hr,无法查看!")
+        } else {
+          this.rc = response.data.msg;
+          console.log(rc);
+        }
       });
     },
     examine() {
@@ -141,6 +148,7 @@ export default {
   height: 2.3em !important;
   padding-top: 0em !important;
   margin-top: 0em !important;
+  width: 12em !important;
 }
 
 .JOP p,

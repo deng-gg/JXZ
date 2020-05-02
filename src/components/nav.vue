@@ -71,7 +71,7 @@ export default {
       this.$router.push({ path: "/" });
     },
     rencai() {
-      if (this.dl !== "未登录！") {
+      if (this.dl !== "登录！") {
         this.$router.push({ path: "/rencai" });
         
       } else {
@@ -119,7 +119,7 @@ export default {
     },
     hrlogin() {
       
-      if (this.dl !== "未登录！") {
+      if (this.dl !== "登录") {
         var truthBeTold = window.confirm("您已经登录是否重新登录");
         if (truthBeTold) {
           this.$router.push({ path: "/hrLogin" });
@@ -131,7 +131,7 @@ export default {
     },
 
     joplogin() {
-      if (this.dl !== "未登录！") {
+      if (this.dl !== "登录") {
         var truthBeTold = window.confirm("您已经登录是否重新登录");
         if (truthBeTold) {
           this.$router.push({ path: "/joplogin" });
@@ -148,13 +148,12 @@ export default {
     houtai() {
       this.$http.get("/api/houtai").then(response => {
        if(response.data.success==false){
-
           this.dl = "登录";
           return
        }
-        console.log("获取到的", response.data);
+        //console.log("获取到的", response.data);
         this.dl = response.data;
-        console.log("shahsha", this.dl);
+        //console.log("shahsha", this.dl);
       });
     }
   }

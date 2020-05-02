@@ -33,14 +33,14 @@ app.post('/register', (req, res) => {
 
     let data = req.body;
 
-    //console.log(data)
+    ////console.log(data)
     if (data.name.length != 0 && data.pwd.length > 5) {
 
         let sql = `select hrName from hr where hrName='${data.name}'`
 
         mysql(sql, (err, vals, fields) => {
 
-            //console.log('查到的', vals, fields)
+            ////console.log('查到的', vals, fields)
 
             if (vals == 0) {
 
@@ -64,7 +64,7 @@ app.post('/register', (req, res) => {
                             'code': 0,
                             'msg': "注册成功" + vals2
                         };
-                        //console.log("注册成功")
+                        ////console.log("注册成功")
                         jsonWrite(res, obj);
                     }
 
@@ -104,7 +104,7 @@ app.get('/login', (req, res) => {
     let data = req.query;
     let account = data.hrName;
 
-    //console.log('data', data)
+    ////console.log('data', data)
 
     if (account.length != 0 && data.pwd.length > 5) {
 
@@ -114,7 +114,7 @@ app.get('/login', (req, res) => {
 
         mysql(sql, (err, vals, fields) => {
 
-            console.log("vals", vals.length)
+            //console.log("vals", vals.length)
             if (vals == 0 || err) {
 
                 let obj = {
@@ -158,11 +158,10 @@ app.get('/login', (req, res) => {
 app.get('/rencai', (req, res) => {
 
     loginCall(req, res, (userName) => {
+        let sql2 = `select hrName from hr where hrName = "${userName}"`
 
-        let sql = `select * from job_seeker`
-
-        mysql(sql, (err, vals, fields) => {
-            if (err) {
+        mysql(sql2, (err2, vals2, fields2) => {
+            if (err2) {
                 let obj = {
                     'success': false,
                     'code': -1,
@@ -170,17 +169,42 @@ app.get('/rencai', (req, res) => {
                 };
 
                 jsonWrite(res, obj)
+            } else if (vals2 == 0) {
+                let obj = {
+                    'success': false,
+                    'code': -2,
+                    'msg': "你不是hr,无法查看!"
+                };
 
+                jsonWrite(res, obj)
+            } else {
+                let sql = `select * from job_seeker`
+
+                mysql(sql, (err, vals, fields) => {
+                    if (err) {
+                        let obj = {
+                            'success': false,
+                            'code': -1,
+                            'msg': "查询失败"
+                        };
+
+                        jsonWrite(res, obj)
+
+                    }
+                    let obj = {
+                        'success': true,
+                        'code': 0,
+                        'msg': vals
+                    };
+
+                    jsonWrite(res, obj)
+
+                })
             }
-            let obj = {
-                'success': true,
-                'code': 0,
-                'msg': vals
-            };
-
-            jsonWrite(res, obj)
 
         })
+
+
     })
 })
 
@@ -190,7 +214,7 @@ app.get('/hrfabu', (req, res) => {
 
     loginCall(req, res, (userName) => {
 
-        console.log("当前登录的是", userName)
+        //console.log("当前登录的是", userName)
         let sql = `select * from post where hrName='${userName}'`
         mysql(sql, (err, vals, fields) => {
             if (err) {
@@ -201,15 +225,17 @@ app.get('/hrfabu', (req, res) => {
                 };
 
                 jsonWrite(res, obj)
+            } else {
+                let obj = {
+                    'success': true,
+                    'code': 0,
+                    'msg': vals
+                };
+
+                jsonWrite(res, obj)
             }
 
-            let obj = {
-                'success': true,
-                'code': 0,
-                'msg': vals
-            };
 
-            jsonWrite(res, obj)
 
         })
 
@@ -226,22 +252,23 @@ app.get('/gongsixinxi', (req, res) => {
         let sql = `select * from hr where hrName='${userName}'`
         mysql(sql, (err, vals, fields) => {
             if (err) {
+
                 let obj = {
                     'success': false,
                     'code': -1,
                     'msg': "查询失败"
                 };
+                jsonWrite(res, obj)
+            } else {
+
+                let obj = {
+                    'success': true,
+                    'code': 0,
+                    'msg': vals
+                };
 
                 jsonWrite(res, obj)
             }
-
-            let obj = {
-                'success': true,
-                'code': 0,
-                'msg': vals
-            };
-
-            jsonWrite(res, obj)
 
         })
 
@@ -255,9 +282,11 @@ app.post('/HRxiugai', (req, res) => {
     loginCall(req, res, (userName) => {
 
         let data = req.body;
-        let sql = `update hr set hrName='${data.name}',QQ='${data.QQ}',pwd='${data.pwd}',email='${data.email}',city='${data.city}',juridical='${data.juridical}' where hrName = '${userName}' `
+        //console.log("data", data)
+        let sql = `update hr set hrName = "${data.hrName}", WX="${data.WX}",pwd="${data.pwd}",email="${data.email}",creditCode="${data.code}",city="${data.city}",juridical="${data.juridical}" where hrName = '${userName}' `
 
         mysql(sql, (err, vals, fields) => {
+            //console.log(err, vals)
             if (err) {
                 let obj = {
                     'success': false,
@@ -266,16 +295,16 @@ app.post('/HRxiugai', (req, res) => {
                 };
 
                 jsonWrite(res, obj)
+            } else {
+                let obj = {
+                    'success': true,
+                    'code': 0,
+                    'msg': vals
+                };
+
+                jsonWrite(res, obj)
+
             }
-
-            let obj = {
-                'success': true,
-                'code': 0,
-                'msg': vals
-            };
-
-            jsonWrite(res, obj)
-
         })
     })
 
@@ -288,13 +317,12 @@ app.post('/HRzhaopin', (req, res) => {
     loginCall(req, res, (userName) => {
 
         let data = req.body;
-        console.log(data);
+        ////console.log(data);
 
-
-        let sql = `insert into post(hrName,post,ask,pay,city,workExperience,education,type) values('${userName}',${data.post}','${data.ask}','${data.pay}','${data.city}','${data.work_experienc}','${data.education}','${data.type}')`
+        let sql = `insert into post(hrName,post,ask,pay,city,email,companyName,workExperience,education,type) values("${userName}","${data.post}","${data.ask}","${data.pay}","${data.city}","${data.email}","${data.company_name}","${data.work_experience}","${data.education}","${data.type}")`
 
         mysql(sql, (err, vals, fields) => {
-
+            ////console.log(err, vals)
             if (err) {
                 let obj = {
                     'success': false,
@@ -303,15 +331,17 @@ app.post('/HRzhaopin', (req, res) => {
                 };
 
                 jsonWrite(res, obj)
+            } else {
+
+                let obj = {
+                    'success': true,
+                    'code': 0,
+                    'msg': vals
+                };
+
+                jsonWrite(res, obj)
             }
 
-            let obj = {
-                'success': true,
-                'code': 0,
-                'msg': vals
-            };
-
-            jsonWrite(res, obj)
 
         })
     })

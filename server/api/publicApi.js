@@ -33,7 +33,7 @@ app.get('/position', (req, res) => {
 
     let sql = 'select * from post';
 
-    console.log(req.query)
+    //console.log(req.query)
 
     mysql(sql, (err, vals, fields) => {
 

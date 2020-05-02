@@ -46,9 +46,9 @@
                                   :xl="5"
                                   style="color:black !important;"
                                   prop="gongsi"
-                                >{{item.hrName}}</el-col>
+                                >{{item.companyName}}</el-col>
                                 <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-                                  <p>招聘者：HR</p>
+                                  <p>发布人：{{item.hrName}}</p>
                                 </el-col>
                               </el-col>
                               <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
@@ -117,7 +117,8 @@ export default {
     return {
       activeName: "second",
       jop: "",
-      jop_length: ""
+      jop_length: "",
+      
     };
   },
   mounted() {

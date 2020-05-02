@@ -42,14 +42,16 @@
           <el-form-item label="邮箱">
             <el-input v-model="formLabelAlign.email" placeholder="请输入邮箱"></el-input>
           </el-form-item>
-          <el-form-item label="行业">
-            <el-input v-model="formLabelAlign.industry" placeholder="请输入行业"></el-input>
+          <el-form-item label="期望职位">
+            <el-input v-model="formLabelAlign.industry" placeholder="请输入职位"></el-input>
           </el-form-item>
 
           <el-form-item label="期望城市">
-            <el-input v-model="formLabelAlign.city" placeholder="请你输入期望去得城市"></el-input>
+            <el-input v-model="formLabelAlign.city" placeholder="请你输入城市"></el-input>
           </el-form-item>
-          <el-button type="primary" @click="HRregester" class="regester">注册</el-button>
+                    <el-alert :title="tisi" type="error"></el-alert>
+          <el-button type="primary" @click="regester" class="regester">注册</el-button>
+
         </el-form>
       </el-col>
     </el-row>
@@ -66,6 +68,7 @@ export default {
   components: {},
   data() {
     return {
+      tisi:"",
       url: require("@/assets/logo1.png"), //logo
       abc_img: [
         //轮播图
@@ -97,7 +100,7 @@ export default {
         ? e.setAttribute("style", "color: #409EFF")
         : e.setAttribute("style", "color: #c0c4cc");
     },
-    HRregester() {
+    regester() {
       var formLabelAlign = this.formLabelAlign;
       var name = formLabelAlign.name;
       var pwd = formLabelAlign.pwd;
@@ -105,44 +108,32 @@ export default {
       var industry = formLabelAlign.industry;
       var city = formLabelAlign.city;
 
-      //注册时间
-      var date = new Date();
-      var seperator1 = "-";
-      var year = date.getFullYear();
-      var month = date.getMonth() + 1;
-      var strDate = date.getDate();
-
-      if (month >= 1 && month <= 9) {
-        month = "0" + month;
-      }
-      if (strDate >= 0 && strDate <= 9) {
-        strDate = "0" + strDate;
-      }
-      var currentdate = year + seperator1 + month + seperator1 + strDate;//注册时间
-
-
       if(name.length==0||pwd.length==0){
         alert("用户名或密码为空")
       }else if(pwd.length<6){
         alert("密码低于六位数")
       }else{
-        this.$http
-        .post("/api/user/jopAdd", {
-          currentdate: currentdate,
-          name: name,
-          pwd: pwd,
-          email: email,
-          industry: industry,
-          city: city
+        this.$http.post("/api/job/register", {
+          "account": name,
+          "pwd": pwd,
+          "email": email,
+          "industry": industry,
+          "city": city
         })
         .then(response => {
-          console.log("上传成功", response);
-          alert("注册成功");
-          this.$router.push({ path: "/" });
+          console.log("上传成功", response.data);
+          if(response.data.code == -6){
+            this.tisi = "用户名已存在，请刷新重新注册"
+            //this.$router.push({ path: "/regester" });
+          }else{
+            
+            this.tisi = "注册成功"
+            this.$router.push({ path: "/joplogin" });
+          }
         })
         .catch(function(error) {
 
-          alert("用户名已存在！");
+          this.tisi = "注册失败！";
 
         });
       }
