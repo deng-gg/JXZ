@@ -125,7 +125,7 @@ export default {
       });
     },
     examine() {
-      alert("id:");
+      
     }
   }
 };

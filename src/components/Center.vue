@@ -85,7 +85,75 @@
                     <el-tab-pane label="C++" name="first"></el-tab-pane>
                   </el-tabs>
                 </el-tab-pane>
-                <el-tab-pane label="产品" name="third">角色管理</el-tab-pane>
+                <el-tab-pane label="产品" name="third" @click="lx">
+                  <el-tabs tab-position="left" style="height:100%;" class="hello">
+                    >
+                    <el-tab-pane label="产品">
+                      <el-row>
+                        <li v-for="(item,index) in jop" :key="index">
+                          <el-col :span="22" class="jop" :data="jop">
+                            <el-col :xs="22" :sm="22" :md="22" :lg="22" :xl="22" class="jop_">
+                              <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
+                                <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5" prop="zhiwei">
+                                  {{item.post}}
+                                  <em prop="xinci">{{item.pay}}</em>
+                                </el-col>
+                                <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
+                                  <p prop="diqu">
+                                    {{item.city}}
+                                    <em>|</em>经验不限
+                                    <em>|</em>大专
+                                  </p>
+                                </el-col>
+                              </el-col>
+                              <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
+                                <el-col
+                                  :xs="5"
+                                  :sm="5"
+                                  :md="5"
+                                  :lg="5"
+                                  :xl="5"
+                                  style="color:black !important;"
+                                  prop="gongsi"
+                                >{{item.companyName}}</el-col>
+                                <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
+                                  <p>发布人：{{item.hrName}}</p>
+                                </el-col>
+                              </el-col>
+                              <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
+                                <el-col
+                                  :xs="5"
+                                  :sm="5"
+                                  :md="5"
+                                  :lg="5"
+                                  :xl="5"
+                                  style="color:black !important;"
+                                  prop="fabu"
+                                >
+                                  发布于:
+                                  <span>{{item.createTime}}</span>
+                                </el-col>
+                                <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
+                                  <p>邮箱：1912504939@qq.com</p>
+                                </el-col>
+                              </el-col>
+                              <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
+                                <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
+                                  <el-button type="success" plain @click="examine">点击查看</el-button>
+                                </el-col>
+                              </el-col>
+                            </el-col>
+                          </el-col>
+                        </li>
+                      </el-row>
+                    </el-tab-pane>
+                    <el-tab-pane label="产品">配置管理</el-tab-pane>
+                    <el-tab-pane label="产品">角色管理</el-tab-pane>
+                    <el-tab-pane label="产品">定时任务补偿</el-tab-pane>
+                    <el-tab-pane style label="产品">角色管理</el-tab-pane>
+                    <el-tab-pane label="产品" name="first"></el-tab-pane>
+                  </el-tabs>
+                </el-tab-pane>
                 <el-tab-pane label="设计" name="third">角色管理</el-tab-pane>
                 <el-tab-pane label="运营" name="fourth">定时任务补偿</el-tab-pane>
                 <el-tab-pane label="市场" name="fourth">定时任务补偿</el-tab-pane>
@@ -112,15 +180,16 @@
 </template>
 <script>
 export default {
-  components: {},
+
   data() {
     return {
       activeName: "second",
       jop: "",
       jop_length: "",
-      
+      leixing: "产品"
     };
   },
+
   mounted() {
     this.position();
   },
@@ -131,19 +200,22 @@ export default {
 
     //获取职位信息
     position() {
-      let aaa = "nihao";
-      this.$http.get("/api/public/position",{aaa:aaa})
-      .then(response => {
-        console.log("获取到的", response.data);
-        this.jop = response.data.msg;
-      })
-      .catch(function(error) {
-            console.log(error);
-          });
+      this.$http
+        .get("/api/public/position")
+        .then(response => {
+          console.log("获取到的", response.data);
+          this.jop = response.data.msg;
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     },
-    examine() {
-      alert("id:");
-    }
+
+    lx() {
+      let leixing = this.leixing;
+
+    },
+    examine() {}
   }
 };
 </script>

@@ -90,9 +90,8 @@
                     <el-form-item label="所在地">
                       <el-input v-model="HRxinxi.city"></el-input>
                     </el-form-item>
-                    
+
                     <el-button plain @click="xiugai">点击修改</el-button>
-                    
                   </el-form>
                 </el-col>
               </el-row>
@@ -136,7 +135,7 @@
                       </el-select>
                     </el-form-item>
                   </el-form>
-                   <el-alert :title="tisi" type="success"></el-alert>
+                  <el-alert :title="tisi" type="success"></el-alert>
                 </el-col>
                 <el-col :offset="1" :xs="12" :sm="12" :md="9" :lg="9" :xl="9" class="xinxi_">
                   <el-form label-position="top" label-width="80px" :model="post">
@@ -167,8 +166,10 @@
                         <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                           <p prop="diqu">
                             {{item.city}}
-                            <em>|</em>经验:{{item.workExperience}}
-                            <em>|</em>学历:{{item.education}}
+                            <em>|</em>
+                            经验:{{item.workExperience}}
+                            <em>|</em>
+                            学历:{{item.education}}
                           </p>
                         </el-col>
                       </el-col>
@@ -227,9 +228,9 @@ export default {
   data() {
     return {
       dl: "",
-      tisi:"",
-      postName:"职位",
-      postType:"类型",
+      tisi: "",
+      postName: "职位",
+      postType: "类型",
       activeIndex: "1",
       activeIndex2: "1",
       HRxinxi: {
@@ -261,24 +262,19 @@ export default {
     this.houtai();
     this.wfbd();
   },
-  beforeUpdate() {
-    
-  },
+  beforeUpdate() {},
   methods: {
-      houtai() {
-        this.$http.get("/api/houtai").then(response => {
-          if(response.data.success==false){
+    houtai() {
+      this.$http.get("/api/houtai").then(response => {
+        console.log("获取到的", response);
+        if (response.data.code == 1) {
           this.dl = "登录";
-          return
-       }
-        console.log("获取到的", response.data);
-        this.dl = response.data;
-        console.log("shahsha", this.dl);
+          alert("登录超时");
+        } else {
+          this.dl = response.data.msg;
+        }
       });
     },
-    // handleSelect(key, keyPath) {
-    //   console.log(key, keyPath);
-    // },
 
     hrre() {
       this.$router.push({ path: "/HRregester" });
@@ -313,9 +309,9 @@ export default {
       let juridical_person = HR.juridical;
       let company_city = HR.city;
 
-      if(HR_name == ""){
-        this.tisi = "请登录！"
-        return
+      if (HR_name == "") {
+        this.tisi = "请登录！";
+        return;
       }
 
       this.$http
@@ -346,12 +342,12 @@ export default {
       let email = HRxinxi.email;
       let company_name = HRxinxi.company_name;
 
-      if (this.dl == "登录！") {
-        this.tisi= "请您登录！"
+      if (this.dl == "登录") {
+        this.tisi = "请您登录！";
         return;
       } else if (this.dl !== "登录") {
         if (this.zhaopin.post == "" || this.zhaopin.city == "") {
-          this.postname =  "请输入岗位名称和工作城市";
+          this.postname = "请输入岗位名称和工作城市";
         } else if (this.zhaopin.type == "") {
           this.postType = "请选择职业类型";
         } else {
@@ -365,8 +361,7 @@ export default {
               education: zhaopin.education,
               type: zhaopin.type,
               email: HRxinxi.email,
-              company_name: HRxinxi.companyName,
-
+              company_name: HRxinxi.companyName
             })
             .then(response => {
               console.log("上传成功", response);
@@ -376,20 +371,18 @@ export default {
             .catch(function(error) {
               alert("发布失败！");
             });
-            return
+          return;
         }
       }
     },
     wfbd() {
       this.$http.get("/api/hr/hrfabu").then(response => {
-        
         if (response.data.success == false) {
           this.dl = "登录";
           return;
         }
         //console.log("获取到的", response.data);
         this.jop = response.data.msg;
-
       });
     }
   }

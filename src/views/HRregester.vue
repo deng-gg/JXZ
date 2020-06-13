@@ -111,7 +111,7 @@ export default {
         alert("密码低于六位数");
       } else {
         this.$http
-          .post("/api/user/HRadd", {
+          .post("/api/hr/register", {
             name: name,
             pwd: pwd,
             email: email,

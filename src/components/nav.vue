@@ -49,11 +49,8 @@
   </el-row>
 </template>
 <script>
-//import func from "../../vue-temp/vue-editor-bridge";
-//import { writeFileSync } from "fs";
 export default {
   data() {
-    
     return {
       activeIndex: "1",
       activeIndex2: "1",
@@ -71,54 +68,47 @@ export default {
       this.$router.push({ path: "/" });
     },
     rencai() {
-      if (this.dl !== "登录！") {
+      if (this.dl !== "登录") {
         this.$router.push({ path: "/rencai" });
-        
       } else {
-        var truthBeTold = window.confirm("您还未登录不能查询人才，请点击确定登录");
+        var truthBeTold = window.confirm(
+          "您还未登录不能查询人才，请点击确定登录"
+        );
         if (truthBeTold) {
-          this.$router.push({ path: "/logins" });
+          this.$router.push({ path: "/hrLogin" });
         } else {
-
         }
-        
       }
-     
     },
     zhiwei() {
       this.$router.push({ path: "/zhiwei" });
     },
     hrre() {
-      if (this.dl !== "未登录！") {
+      if (this.dl !== "登录") {
         var truthBeTold = window.confirm("您已注册，是否重新注册？");
         if (truthBeTold) {
           this.$router.push({ path: "/HRregester" });
         } else {
-
         }
       } else {
-        this.$router.push({ path: "/logins" });
+        this.$router.push({ path: "/HRregester" });
       }
-      
     },
     jopre() {
-      if (this.dl !== "未登录！") {
+      if (this.dl !== "登录") {
         var truthBeTold = window.confirm("您已注册，是否重新注册？");
         if (truthBeTold) {
           this.$router.push({ path: "/regester" });
         } else {
-
         }
       } else {
         this.$router.push({ path: "/regester" });
       }
-      
     },
     grzx() {
       this.$router.push({ path: "/grzx" });
     },
     hrlogin() {
-      
       if (this.dl !== "登录") {
         var truthBeTold = window.confirm("您已经登录是否重新登录");
         if (truthBeTold) {
@@ -140,20 +130,20 @@ export default {
       } else {
         this.$router.push({ path: "/joplogin" });
       }
-      
     },
     jopgrzx() {
       this.$router.push({ path: "jopgrzx" });
     },
     houtai() {
       this.$http.get("/api/houtai").then(response => {
-       if(response.data.success==false){
+        if (response.data.code == 1) {
           this.dl = "登录";
-          return
-       }
-        //console.log("获取到的", response.data);
-        this.dl = response.data;
-        //console.log("shahsha", this.dl);
+          return;
+        } else {
+          //console.log("获取到的", response.data);
+          this.dl = response.data.msg;
+          //console.log("shahsha", this.dl);
+        }
       });
     }
   }
@@ -176,8 +166,7 @@ export default {
   background: rgb(34, 47, 60) !important;
 }
 
-.el-submenu:hover{
+.el-submenu:hover {
   background: rgb(34, 47, 60) !important;
 }
-
 </style>

@@ -26,7 +26,7 @@
       </el-col>
       <el-col :offset="2" :xs="8" :sm="8" :md="8" :lg="8" :xl="8">
         <el-form label-position="top" label-width="80px" :model="HR" style="margin-top:5em;">
-          <el-form-item label="用户名">
+          <el-form-item label="用户名/邮箱">
             <el-input v-model="HR.name" placeholder="请输入用户名"></el-input>
           </el-form-item>
           <el-form-item label="密码" prop="pwd">

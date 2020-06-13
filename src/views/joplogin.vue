@@ -108,7 +108,6 @@ export default {
             if (res.data.success == false) {
               this.tisi = "账号或密码错误！";
               //console.log(res.data, "登录失败！");
-              //console.log(this.tisi)
               return;
             }
             //console.log("登录成功！");

@@ -14,8 +14,9 @@ import Post from './views/post.vue'
 Vue.use(Router)
 
 export default new Router({
+    mode: 'hash', // 去掉路由的#
+    //base: process.env.BASE_URL,
     mode: 'history',
-    base: process.env.BASE_URL,
     routes: [{
             path: '/Post',
             name: 'Post',
