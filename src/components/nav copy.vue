@@ -1,7 +1,16 @@
 <template>
   <el-row class="bg">
     <el-col :span="24" class="bg box">
-
+      <el-col   :xs="24" :sm="10" :md="10" :lg="10" :xl="10" class="bg-li item1">
+        <el-menu
+          :default-active="activeIndex2"
+          class="el-menu-demo"
+          mode="horizontal"
+          @select="handleSelect"
+          background-color="rgb(43, 59, 75)"
+          text-color="#fff"
+          active-text-color="#ffd04b"
+        >
           <el-menu-item index="2" class="shouye" @click="shouye">首页</el-menu-item>
           <el-menu-item index="3" class="zhiwei" @click="zhiwei">职位</el-menu-item>
           <el-menu-item index="4" class="rencai" @click="rencai">人才</el-menu-item>
@@ -150,9 +159,9 @@ export default {
   /* margin: 0px; */
   background: rgb(43, 59, 75) !important;
 }
-.el-menu::after {
+/* .el-menu::after {
     clear:none !important;
-}
+} */
 .item2{
   display:flex;
   justify-content: flex-start;
@@ -172,4 +181,5 @@ export default {
 .el-submenu:hover {
   background: rgb(34, 47, 60) !important;
 }
+
 </style>

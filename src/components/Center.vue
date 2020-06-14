@@ -5,16 +5,15 @@
         <el-row>
           <el-col :offset="0" :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
             <el-col
-              :offset="0"
-              :xs="3"
+              :xs="0"
               :sm="3"
               :md="3"
               :lg="3"
               :xl="3"
               class="bg"
-              style="height:2.4em;"
+              style="height:2.4em"
             >1</el-col>
-            <el-col :offset="0" :xs="18" :sm="18" :md="18" :lg="18" :xl="18">
+            <el-col :offset="0" :xs="24" :sm="24" :md="18" :lg="18" :xl="18">
               <el-tabs class="hangye" v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="技术" name="second" class="hello">
                   <el-tabs tab-position="left" style="height:100%;" class="hello">
@@ -164,7 +163,7 @@
             </el-col>
             <el-col
               :offset="0"
-              :xs="3"
+              :xs="0"
               :sm="3"
               :md="3"
               :lg="3"
@@ -220,6 +219,7 @@ export default {
 };
 </script>
 <style>
+
 .time {
   font-size: 13px;
   color: #999;
