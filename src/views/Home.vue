@@ -6,7 +6,7 @@
     </el-row>
 </template>
 <script>
-import Nav from "../components/nav copy"
+import Nav from "../components/nav"
 import SE1 from "../components/se1.vue"
 import Center from "../components/Center.vue"
 export default {
