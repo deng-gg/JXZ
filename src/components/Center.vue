@@ -4,15 +4,7 @@
       <el-col :span="24">
         <el-row>
           <el-col :offset="0" :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
-            <el-col
-              :xs="0"
-              :sm="3"
-              :md="3"
-              :lg="3"
-              :xl="3"
-              class="bg"
-              style="height:2.4em"
-            >1</el-col>
+            <el-col :xs="0" :sm="3" :md="3" :lg="3" :xl="3" class="bg" style="height:2.4em">1</el-col>
             <el-col :offset="0" :xs="24" :sm="24" :md="18" :lg="18" :xl="18">
               <el-tabs class="hangye" v-model="activeName" @tab-click="handleClick">
                 <el-tab-pane label="技术" name="second" class="hello">
@@ -20,8 +12,8 @@
                     >
                     <el-tab-pane label="前端开发">
                       <el-row>
-                        <li v-for="(item,index) in jop" :key="index">
-                          <el-col :span="22" class="jop" :data="jop">
+                        <li v-for="(item,index) in jops" :key="index">
+                          <el-col :span="22" class="jop" :data="jops">
                             <el-col :xs="22" :sm="22" :md="22" :lg="22" :xl="22" class="jop_">
                               <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                                 <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5" prop="zhiwei">
@@ -69,7 +61,9 @@
                               </el-col>
                               <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                                 <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-                                  <el-button type="success" plain @click="examine">点击查看</el-button>
+                                  <router-link :to="'/Detail/'+item.id">
+                                    <el-button type="success" class="JOPbutton">点击查看</el-button>
+                                  </router-link>
                                 </el-col>
                               </el-col>
                             </el-col>
@@ -89,8 +83,8 @@
                     >
                     <el-tab-pane label="产品">
                       <el-row>
-                        <li v-for="(item,index) in jop" :key="index">
-                          <el-col :span="22" class="jop" :data="jop">
+                        <li v-for="(item,index) in jops" :key="index">
+                          <el-col :span="22" class="jop" :data="jops">
                             <el-col :xs="22" :sm="22" :md="22" :lg="22" :xl="22" class="jop_">
                               <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                                 <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5" prop="zhiwei">
@@ -138,7 +132,10 @@
                               </el-col>
                               <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                                 <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-                                  <el-button type="success" plain @click="examine">点击查看</el-button>
+                                  <router-link :to="'/Detail/'+item.id">
+                                    <el-button type="success" class="JOPbutton">点击查看</el-button>
+                                  </router-link>
+                                  <!-- <el-button type="success" plain @click="examine">点击查看</el-button> -->
                                 </el-col>
                               </el-col>
                             </el-col>
@@ -179,12 +176,10 @@
 </template>
 <script>
 export default {
-
   data() {
     return {
       activeName: "second",
-      jop: "",
-      jop_length: "",
+      jops: "",
       leixing: "产品"
     };
   },
@@ -202,8 +197,8 @@ export default {
       this.$http
         .get("/api/public/position")
         .then(response => {
-          console.log("获取到的", response.data);
-          this.jop = response.data.msg;
+          console.log("获取到的", response.data.msg);
+          this.jops = response.data.msg;
         })
         .catch(function(error) {
           console.log(error);
@@ -212,14 +207,12 @@ export default {
 
     lx() {
       let leixing = this.leixing;
-
     },
     examine() {}
   }
 };
 </script>
 <style>
-
 .time {
   font-size: 13px;
   color: #999;
@@ -244,6 +237,10 @@ export default {
 .clearfix:after {
   display: table;
   content: "";
+}
+
+.JOPbutton {
+  margin-top: 1.5em;
 }
 
 .clearfix:after {
@@ -271,9 +268,6 @@ export default {
   width: 12em;
   margin-left: 1em;
 }
-.jop_ {
-}
-
 .hangye div {
   color: #fff !important;
 }

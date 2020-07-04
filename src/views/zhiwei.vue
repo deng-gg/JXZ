@@ -69,16 +69,20 @@
                         <el-popover placement="right" width="400" trigger="click">
                           <div>
                             <div>
-                              <h2>{{item.post}}<span class="pay">{{item.pay}}</span></h2>
+                              <h2>
+                                {{item.post}}
+                                <span class="pay">{{item.pay}}</span>
+                              </h2>
                             </div>
                             <div class="ask_wor">
                               <p>{{item.ask}}</p>
                               <h4>经验：{{item.workExperience}}</h4>
                             </div>
                           </div>
-                          <el-button slot="reference">点击查看详情</el-button>
                         </el-popover>
-                        <!-- <el-button type="success" plain @click="examine" class="JOPbutton">点击查看</el-button> -->
+                        <router-link :to="'/Detail/'+item.id">
+                          <el-button type="success" plain @click="examine" class="JOPbutton">点击查看</el-button>
+                        </router-link>
                       </el-col>
                     </el-col>
                   </el-col>
@@ -105,22 +109,23 @@ export default {
   },
   data() {
     return {
-      gridData: [{
-          post: '',
-          ask: '',
-          pay: '',
-          workExperience:"",
-          education:"",
-          city:"",
-          email:"",
-          companyName:""
-        }],
+      gridData: [
+        {
+          post: "",
+          ask: "",
+          pay: "",
+          workExperience: "",
+          education: "",
+          city: "",
+          email: "",
+          companyName: ""
+        }
+      ],
       jop: "",
       dl: "",
       activeIndex: "1",
       activeIndex2: "1",
-      post: "" ,//职位 
-      
+      post: "" //职位
     };
   },
   mounted() {
@@ -134,13 +139,16 @@ export default {
         this.post = response.data.msg;
       });
     },
-    examine() {
-      alert("id:");
-    }
+    examine() {}
   }
+  // beforeRouteEnter(to,from,next){
+  //   console.log("组件内的路由守卫")
+  // }
 };
 </script>
 <style>
+.detal {
+}
 .el-tabs__active-bar {
   background: white !important;
 }
@@ -174,13 +182,13 @@ export default {
   background: rgb(248, 246, 246) !important;
 }
 
-.pay{
+.pay {
   font: 10px !important;
   margin-left: 10px;
 }
 
 .ask_wor p,
-.ask_wor h4{
+.ask_wor h4 {
   margin-top: 2em;
 }
 </style>

@@ -1,10 +1,10 @@
 <template>
   <el-row class="bg">
     <el-col :span="24" class="bg box">
-      <el-col   :xs="24" :sm="10" :md="10" :lg="10" :xl="10" class="bg-li item1">
+      <el-col :xs="24" :sm="10" :md="10" :lg="5" :xl="10" class="bg-li item1">
         <el-menu
           :default-active="activeIndex2"
-          class="el-menu-demo"
+          class="el-menu-demo item_1_1"
           mode="horizontal"
           @select="handleSelect"
           background-color="rgb(43, 59, 75)"
@@ -22,7 +22,7 @@
           </el-submenu>
         </el-menu>
       </el-col>
-      <el-col  :xs="24" :sm="10" :md="5" :lg="5" :xl="5" class="bg-li item2">
+      <el-col :xs="24" :sm="10" :md="5" :lg="5" :xl="5" class="bg-li item2">
         <el-menu
           :default-active="activeIndex2"
           class="el-menu-demo"
@@ -32,13 +32,14 @@
           text-color="#fff"
           active-text-color="#ffd04b"
         >
-          <el-submenu index="6">
-            <!--{dl}登录-->
-            <template slot="title">{{dl}}</template>
+          <el-menu-item style v-if="isUsername">Hi! {{username}}</el-menu-item>
+          <el-submenu index="6" v-if="islogin">
+            <template slot="title">登录</template>
             <el-menu-item index="6-1" class="login" @click="hrlogin">我是HR</el-menu-item>
             <el-menu-item index="6-2" class="login" @click="joplogin">我是人才</el-menu-item>
           </el-submenu>
-          <el-submenu index="7">
+
+          <el-submenu index="7" v-if="isregister">
             <template slot="title">注册</template>
             <el-menu-item index="7-1" @click="hrre" class="login">我是HR</el-menu-item>
             <el-menu-item index="7-2" @click="jopre" class="login">我是人才</el-menu-item>
@@ -54,33 +55,52 @@ export default {
     return {
       activeIndex: "1",
       activeIndex2: "1",
-      dl: "登录"
+      dl: "登录",
+      islogin: true,
+      username: "123",
+      isUsername: false,
+      isregister: true
     };
   },
   mounted() {
     this.houtai();
+    console.log("nav里的coookie", this.$cookies.isKey("cookieName"));
   },
   methods: {
+    houtai() {
+      if (this.$cookies.isKey("cookieName") == true) {
+        this.islogin = false;
+        this.username = this.$cookies.get("cookieName");
+        this.isUsername = true; // 显示用户名
+        this.isregister = false; // 隐藏登录注册
+      }
+    },
     handleSelect(key, keyPath) {
       console.log(key, keyPath);
+    },
+    username() {
+      return this.$store.getters.getName;
     },
     shouye() {
       this.$router.push({ path: "/" });
     },
     rencai() {
-      if (this.dl !== "登录") {
-        this.$router.push({ path: "/rencai" });
-      } else {
-        var truthBeTold = window.confirm(
-          "您还未登录不能查询人才，请点击确定登录"
-        );
-        if (truthBeTold) {
-          this.$router.push({ path: "/hrLogin" });
-        } else {
-        }
-      }
+      this.$router.push({ path: "/rencai" });
+      
+      // if (this.$cookies.isKey("cookieName") == true) {
+      //   this.$router.push({ path: "/rencai" });
+      // } else {
+      //   var truthBeTold = window.confirm(
+      //     "您还未登录不能查询人才，请点击确定登录"
+      //   );
+      //   if (truthBeTold) {
+      //     this.$router.push({ path: "/hrLogin" });
+      //   } else {
+      //   }
+      // }
     },
     zhiwei() {
+      console.log("zhiwei");
       this.$router.push({ path: "/zhiwei" });
     },
     hrre() {
@@ -133,25 +153,32 @@ export default {
     },
     jopgrzx() {
       this.$router.push({ path: "jopgrzx" });
-    },
-    houtai() {
-      this.$http.get("/api/houtai").then(response => {
-        if (response.data.code == 1) {
-          this.dl = "登录";
-          return;
-        } else {
-          //console.log("获取到的", response.data);
-          this.dl = response.data.msg;
-          //console.log("shahsha", this.dl);
-        }
-      });
     }
+    // houtai() {
+
+    // if(this.$cookies.isKey("cookieName") == false){
+    //   this.islogin = false;
+    //   this.username = this.$cookies.get("cookieName");
+    //   this.isUsername = true;
+    //   return
+    // }
+    // this.$http.get("/api/houtai").then(response => {
+    //   if (response.data.code == 1) {
+    //     this.dl = "登录";
+    //     return;
+    //   } else {
+    //     //console.log("获取到的", response.data);
+    //     this.dl = response.data.msg;
+    //     //console.log("shahsha", this.dl);
+    //   }
+    // });
+    //}
   }
 };
 </script>
 <style>
-.box{
-  display:flex;
+.box {
+  display: flex;
   justify-content: space-evenly;
   flex-wrap: wrap;
 }
@@ -162,9 +189,15 @@ export default {
 /* .el-menu::after {
     clear:none !important;
 } */
-.item2{
-  display:flex;
-  justify-content: flex-start;
+.item2 {
+  display: flex;
+  justify-content: space-around;
+  /* flex-start; */
+}
+.item_1_1 {
+  /* border: 1px solid red; */
+  display: flex;
+  justify-content: center;
 }
 .bg-li li:hover {
   background: rgb(34, 47, 60) !important;
@@ -181,5 +214,4 @@ export default {
 .el-submenu:hover {
   background: rgb(34, 47, 60) !important;
 }
-
 </style>

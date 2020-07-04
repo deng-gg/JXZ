@@ -72,7 +72,9 @@ export default {
       tisi: ""
     };
   },
-  mounted() {},
+  mounted() {
+    console.log("登录页面",this.$cookies.get("token") ,this.$cookies.isKey("token") ) // return true or false
+  },
 
   methods: {
     showPwd() {
@@ -107,18 +109,21 @@ export default {
           .then(res => {
             if (res.data.success == false) {
               this.tisi = "账号或密码错误！";
-              //console.log(res.data, "登录失败！");
-              //console.log(this.tisi)
               return;
             }
-            //console.log("登录成功！");
+            console.log("vals",res.data.data[0]);
+            const tokens = res.data.data[0].id
+            
+            this.$cookies.set("token",`'${tokens}'`,'600s');
+            this.$cookies.set("cookieName",`${hrName}`,"600s");
             this.$router.push({ path: "/" });
           })
           .catch(function(error) {
             this.tisi = "登录失败，服务出错！";
           });
       }
-    }
+    },
+
   }
 };
 </script>

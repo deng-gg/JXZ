@@ -112,21 +112,11 @@ export default {
     //获取职位信息
     rencai() {
       this.$http.get("/api/hr/rencai").then(response => {
-        
-        console.log("data是", response.data);
-        if (response.data.code == 1) {
-          alert( "登录超时")
-        } else if (response.data.code == -2) {
-          alert("你不是hr,无法查看!")
-        } else {
           this.rc = response.data.msg;
           console.log(rc);
-        }
       });
     },
-    examine() {
-      
-    }
+    examine() {}
   }
 };
 </script>

@@ -23,12 +23,8 @@
             active-text-color="#ffd04b"
           >
             <el-menu-item class="shouye" @click="home">首页</el-menu-item>
-            <el-submenu index="5">
-              <template slot="title">{{dl}}</template>
-              <el-menu-item index="5-1" class="login" @click="hrlogin">我是HR</el-menu-item>
-              <el-menu-item index="5-2" class="login" @click="joplogin">我是人才</el-menu-item>
-            </el-submenu>
-            <el-submenu index="6">
+             <el-menu-item v-if="isUsername">Hi! {{username}},欢迎回来！</el-menu-item>
+            <el-submenu index="6" v-if="isregister">
               <template slot="title">注册</template>
               <el-menu-item index="6-1" @click="hrre" class="login">我是HR</el-menu-item>
               <el-menu-item index="6-2" @click="jopre" class="login">我是人才</el-menu-item>
@@ -227,7 +223,9 @@
 export default {
   data() {
     return {
-      dl: "",
+      isregister:true,
+      isUsername:false,
+      username:"",
       tisi: "",
       postName: "职位",
       postType: "类型",
@@ -264,16 +262,14 @@ export default {
   },
   beforeUpdate() {},
   methods: {
-    houtai() {
-      this.$http.get("/api/houtai").then(response => {
-        console.log("获取到的", response);
-        if (response.data.code == 1) {
-          this.dl = "登录";
-          alert("登录超时");
-        } else {
-          this.dl = response.data.msg;
-        }
-      });
+ houtai() {
+      if (this.$cookies.isKey("cookieName") == true) {
+        this.islogin = false;
+        console.log("islogin",this.islogin)
+        this.username = this.$cookies.get("cookieName");
+        this.isUsername = true;
+        this.isregister = false
+      }
     },
 
     hrre() {

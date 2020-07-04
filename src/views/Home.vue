@@ -15,22 +15,12 @@ export default {
       SE1,
       Center
   },
-  data() {
-    return {
-      dl:""
-    };
-  },
-   mounted() {
-    
-  },
-  methods: {
-    // houtai(){
-    //   this.$http.get("/api/public/houtai").then(response => {
-    //     //console.log("获取到的", response.data);
-    //     this.dl = response.data;
-    //     console.log("shahsha",this.dl)
-    //   });
-    // }
-  }
+mounted() {
+    // this.$cookies.isKey("cookie"); 判断是否存在存在true，不存在false
+
+    console.log("cookie",this.$cookies.get("cookieName")) // 
+    console.log("token",this.$cookies.get("token")) // return true or false
+},
+
 };
 </script>
