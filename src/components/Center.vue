@@ -197,8 +197,10 @@ export default {
       this.$http
         .get("/api/public/position")
         .then(response => {
-          console.log("获取到的", response.data.msg);
+           sessionStorage.setItem("UserList",JSON.stringify(response.data.msg)); 
+
           this.jops = response.data.msg;
+          this.$store.commit("addData", response.data.msg); // 提交数据，改变stote里的数据
         })
         .catch(function(error) {
           console.log(error);

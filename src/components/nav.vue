@@ -64,7 +64,6 @@ export default {
   },
   mounted() {
     this.houtai();
-    console.log("nav里的coookie", this.$cookies.isKey("cookieName"));
   },
   methods: {
     houtai() {
@@ -76,7 +75,7 @@ export default {
       }
     },
     handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+      
     },
     username() {
       return this.$store.getters.getName;
@@ -86,21 +85,8 @@ export default {
     },
     rencai() {
       this.$router.push({ path: "/rencai" });
-      
-      // if (this.$cookies.isKey("cookieName") == true) {
-      //   this.$router.push({ path: "/rencai" });
-      // } else {
-      //   var truthBeTold = window.confirm(
-      //     "您还未登录不能查询人才，请点击确定登录"
-      //   );
-      //   if (truthBeTold) {
-      //     this.$router.push({ path: "/hrLogin" });
-      //   } else {
-      //   }
-      // }
     },
     zhiwei() {
-      console.log("zhiwei");
       this.$router.push({ path: "/zhiwei" });
     },
     hrre() {
@@ -154,25 +140,6 @@ export default {
     jopgrzx() {
       this.$router.push({ path: "jopgrzx" });
     }
-    // houtai() {
-
-    // if(this.$cookies.isKey("cookieName") == false){
-    //   this.islogin = false;
-    //   this.username = this.$cookies.get("cookieName");
-    //   this.isUsername = true;
-    //   return
-    // }
-    // this.$http.get("/api/houtai").then(response => {
-    //   if (response.data.code == 1) {
-    //     this.dl = "登录";
-    //     return;
-    //   } else {
-    //     //console.log("获取到的", response.data);
-    //     this.dl = response.data.msg;
-    //     //console.log("shahsha", this.dl);
-    //   }
-    // });
-    //}
   }
 };
 </script>

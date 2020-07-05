@@ -98,6 +98,7 @@
         </el-tabs>
       </el-col>
     </el-row>
+    <div>{{this.$store.getters.getData}}</div>
   </el-row>
 </template>
 <script>
@@ -134,16 +135,11 @@ export default {
   methods: {
     //获取职位信息
     position() {
-      this.$http.get("/api/public/position").then(response => {
-        console.log("获取到的", response.data);
-        this.post = response.data.msg;
-      });
+      this.post = this.$store.getters.getData; // 获取getters里的数据
     },
-    examine() {}
+    examine() {},
+    computed: {}
   }
-  // beforeRouteEnter(to,from,next){
-  //   console.log("组件内的路由守卫")
-  // }
 };
 </script>
 <style>
