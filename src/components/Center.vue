@@ -201,6 +201,7 @@ export default {
 
           this.jops = response.data.msg;
           this.$store.commit("addData", response.data.msg); // 提交数据，改变stote里的数据
+          // this.$store.dispatch("addAsync","1232143123412"); 异步伊调用action里的方法，提交
         })
         .catch(function(error) {
           console.log(error);
@@ -211,7 +212,8 @@ export default {
       let leixing = this.leixing;
     },
     examine() {}
-  }
+  },
+
 };
 </script>
 <style>

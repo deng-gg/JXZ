@@ -66,7 +66,9 @@
                     </el-col>
                     <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
                       <el-col :xs="5" :sm="5" :md="5" :lg="5" :xl="5">
-                        <el-button type="success" plain @click="examine" class="JOPbutton">点击查看</el-button>
+                        <router-link :to="'/Detail2/'+item.id">
+                          <el-button type="success" plain @click="examine" class="JOPbutton">点击查看</el-button>
+                        </router-link>
                       </el-col>
                     </el-col>
                   </el-col>
@@ -112,8 +114,9 @@ export default {
     //获取职位信息
     rencai() {
       this.$http.get("/api/hr/rencai").then(response => {
-          this.rc = response.data.msg;
-          console.log(rc);
+        console.log(response)
+        this.rc = response.data.msg;
+        console.log(rc);
       });
     },
     examine() {}

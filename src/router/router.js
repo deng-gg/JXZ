@@ -14,6 +14,7 @@ import vuex from '../views/vuex.vue'
 import Detail from '../views/Detail.vue'
 import VueCookies from 'vue-cookies'
 import four from '../views/four.vue'
+import Detail2 from '../views/Detail2'
 
 Vue.use(Router)
 
@@ -32,8 +33,14 @@ const router = new Router({
                 path: '/Detail/:id',
                 name: 'Detail',
                 component: Detail,
-                children: []
+
             },
+            {
+                path: '/Detail2/:id',
+                name: 'Detail2',
+                component: Detail2,
+            },
+
             {
                 path: '/',
                 name: 'home',
@@ -116,21 +123,21 @@ const router = new Router({
      * next:决定是否通过
      * 全局路由守卫
      */
-router.beforeEach((to, from, next) => {
-        if (to.matched.length == 0) { // 页面不存在跳到404
-            next('/404');
-        } else {
-            if (VueCookies.isKey("cookieName")) {
-                next();
-            } else {
-                if (to.path === '/hrLogin') {
-                    next();
-                } else {
-                    next('/hrLogin')
-                }
-            }
-        }
-    })
+    // router.beforeEach((to, from, next) => {
+    //         if (to.matched.length == 0) { // 页面不存在跳到404
+    //             next('/404');
+    //         } else {
+    //             if (VueCookies.isKey("cookieName")) {
+    //                 next();
+    //             } else {
+    //                 if (to.path === '/hrLogin') {
+    //                     next();
+    //                 } else {
+    //                     next('/hrLogin')
+    //                 }
+    //             }
+    //         }
+    //     })
     // router.beforeResolve((to, from, next) => {
     //     console.log("全局路由守卫，beforeResolve")
     //         // 调用next方法，next方法会让当前钩子依次向后执行

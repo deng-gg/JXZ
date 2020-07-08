@@ -1,5 +1,7 @@
 <template>
   <el-row class="bg">
+    <!-- <sir-button>引入封装的组件</sir-button>
+    <tabless>12312</tabless> -->
     <el-col :span="24" class="bg box">
       <el-col :xs="24" :sm="10" :md="10" :lg="5" :xl="10" class="bg-li item1">
         <el-menu

@@ -30,11 +30,10 @@ const store = new Vuex.Store({
     },
 
     actions: { //异步
-        addAsync(state, vals2) {
-
-            if (vals2.length > 0) {
-                state.userList = vals2;
-            }
+        add(ctx, vals2) {
+            setTimeout(() => {
+                ctx.commit('addData', vals2);
+            }, 1000)
         }
     }
 

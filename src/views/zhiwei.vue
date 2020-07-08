@@ -80,9 +80,9 @@
                             </div>
                           </div>
                         </el-popover>
-                        <router-link :to="'/Detail/'+item.id">
+                         <router-link :to="'/Detail/'+item.id">
                           <el-button type="success" plain @click="examine" class="JOPbutton">点击查看</el-button>
-                        </router-link>
+                         </router-link>
                       </el-col>
                     </el-col>
                   </el-col>
@@ -135,7 +135,21 @@ export default {
   methods: {
     //获取职位信息
     position() {
-      this.post = this.$store.getters.getData; // 获取getters里的数据
+      if (this.$store.getters.getData.length == 0) {
+        this.$http
+          .get("/api/public/position")
+          .then(response => {
+            //sessionStorage.setItem("UserList",JSON.stringify(response.data.msg));
+            this.post = response.data.msg;
+            this.$store.commit("addData", response.data.msg); // 提交数据，改变stote里的数据
+            // this.$store.dispatch("addAsync","1232143123412"); 异步伊调用action里的方法，提交
+          })
+          .catch(function(error) {
+            console.log(error);
+          });
+      } else {
+        this.post = this.$store.getters.getData; // 获取getters里的数据
+      }
     },
     examine() {},
     computed: {}
