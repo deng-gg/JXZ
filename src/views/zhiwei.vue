@@ -98,7 +98,6 @@
         </el-tabs>
       </el-col>
     </el-row>
-    <div>{{this.$store.getters.getData}}</div>
   </el-row>
 </template>
 <script>
